@@ -1,0 +1,3 @@
+# O webhook é público (o Mercado Pago não envia JWT); a segurança dele é a verificação do x-signature.
+[functions.mp-webhook]
+verify_jwt = false

@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  :root { 
+    --bg: #FDFBF7; --text: #2D2D2D; 
+    --tag-vegan: #059669; --tag-dessert: #DB2777; --tag-quick: #D97706;
+    --diff-easy: #059669; --diff-medium: #D97706; --diff-hard: #DC2626;
+  }
+  .dark { 
+    --bg: #1A1A1A; --text: #FDFBF7; 
+    --tag-vegan: #10B981; --tag-dessert: #F472B6; --tag-quick: #F59E0B;
+    --diff-easy: #34D399; --diff-medium: #F59E0B; --diff-hard: #F87171;
+  }
+  body { @apply bg-[--bg] text-[--text] font-sans antialiased transition-colors duration-300; }
+  h1, h2, h3 { @apply font-display; }
+
+  @media print {
+    .no-print, header, footer, nav, button, aside, .btn-primary, .btn-secondary { display: none !important; }
+    body { background: white !important; color: black !important; }
+    .card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+    main { padding: 0 !important; max-width: 100% !important; }
+    h1 { font-size: 24pt !important; margin-bottom: 10pt !important; }
+    h2 { font-size: 18pt !important; margin-top: 15pt !important; }
+    p, li { font-size: 12pt !important; }
+  }
+  :focus-visible { @apply outline outline-2 outline-offset-2 outline-terracotta; }
+}
+
+@layer components {
+  .btn { @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60; }
+  .btn-primary { @apply btn bg-terracotta text-white hover:bg-terracotta-dark; }
+  .btn-secondary { @apply btn border border-terracotta/40 bg-white text-terracotta-dark hover:bg-sand; }
+  .btn-danger { @apply btn bg-red-700 text-white hover:bg-red-800; }
+  .input { @apply min-h-[44px] w-full rounded-xl border border-ink/20 bg-white px-3 py-2 text-base text-ink placeholder:text-muted/70; }
+  .card { @apply rounded-2xl border border-ink/10 bg-white p-4 shadow-sm; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+@media print {
+  header, .btn-secondary, .btn-primary {
+    display: none !important;
+  }
+}
