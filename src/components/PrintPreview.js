@@ -1,0 +1,6 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState } from 'react';
+export const PrintPreview = ({ onClose, onPrint }) => {
+    const [sections, setSections] = useState({ comments: true, nutrition: true });
+    return (_jsx("div", { className: "fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4", children: _jsxs("div", { className: "card w-full max-w-md space-y-4", children: [_jsx("h2", { className: "text-lg font-bold", children: "Pr\u00E9-visualiza\u00E7\u00E3o de Impress\u00E3o" }), _jsxs("div", { className: "space-y-2", children: [_jsxs("label", { className: "flex items-center gap-2", children: [_jsx("input", { type: "checkbox", checked: sections.comments, onChange: (e) => setSections({ ...sections, comments: e.target.checked }) }), "Incluir Coment\u00E1rios"] }), _jsxs("label", { className: "flex items-center gap-2", children: [_jsx("input", { type: "checkbox", checked: sections.nutrition, onChange: (e) => setSections({ ...sections, nutrition: e.target.checked }) }), "Incluir Informa\u00E7\u00F5es Nutricionais"] })] }), _jsxs("div", { className: "flex gap-2", children: [_jsx("button", { className: "btn-secondary", onClick: onClose, children: "Cancelar" }), _jsx("button", { className: "btn-primary", onClick: () => onPrint(sections), children: "Imprimir" })] })] }) }));
+};

@@ -23,11 +23,11 @@ export function Layout() {
   return (
     <div className="flex min-h-screen flex-col">
       <div 
-        className={`fixed top-2 right-2 h-3 w-3 rounded-full z-50 ${isOnline ? 'bg-emerald-500' : 'bg-red-500'}`}
-        title={isOnline ? 'Online' : 'Offline'}
-        aria-label={isOnline ? 'Conectado à internet' : 'Desconectado da internet'}
+        className={`fixed top-2 right-2 px-3 py-1 rounded-full z-50 text-xs font-bold text-white ${isOnline ? 'bg-emerald-500' : 'bg-red-500'}`}
         role="status"
-      />
+      >
+        {isOnline ? '● Online' : '○ Offline'}
+      </div>
       <header className="sticky top-0 z-10 border-b border-ink/10 bg-[--bg]/95 backdrop-blur">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-4 py-2">
           <div className="flex items-center gap-4">

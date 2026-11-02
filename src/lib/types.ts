@@ -9,6 +9,15 @@ export interface CatalogItem {
   verified?: boolean;
 }
 
+export interface Nutrition {
+  protein?: string | number;
+  prot?: string | number;
+  fats?: string | number;
+  fat?: string | number;
+  carbs?: string | number;
+  carb?: string | number;
+}
+
 export interface Item extends CatalogItem {
   servings: string | null;
   summary: string | null;
@@ -19,6 +28,7 @@ export interface Item extends CatalogItem {
   channel_url: string | null;
   source_url: string | null;
   note: string | null;
+  nutrition?: Nutrition;
 }
 
 export type SubStatus = "none" | "pending" | "authorized" | "paused" | "cancelled";

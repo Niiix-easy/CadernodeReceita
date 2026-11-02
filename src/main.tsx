@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
-import { SubscriptionProvider } from "./context/SubscriptionContext";
+import { GoalProvider } from "./context/GoalContext";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
@@ -13,7 +13,9 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <AuthProvider>
           <SubscriptionProvider>
-            <App />
+            <GoalProvider>
+              <App />
+            </GoalProvider>
           </SubscriptionProvider>
         </AuthProvider>
       </BrowserRouter>

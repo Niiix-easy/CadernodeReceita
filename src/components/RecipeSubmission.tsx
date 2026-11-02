@@ -21,7 +21,7 @@ export const RecipeSubmission: React.FC = () => {
 
   // Load draft
   useEffect(() => {
-    const savedDraft = localStorage.getItem('recipe_draft');
+    const savedDraft = window.localStorage.getItem('recipe_draft');
     if (savedDraft) {
       const { title, category, ingredients, steps, difficulty } = JSON.parse(savedDraft);
       setTitle(title); setCategory(category); setIngredients(ingredients); setSteps(steps);
@@ -59,7 +59,7 @@ export const RecipeSubmission: React.FC = () => {
         nutrition: finalNutrition,
         user_id: user.id 
     });
-    alert('Receita enviada!');
+    window.alert('Receita enviada!');
     setTitle(''); setCategory('receitas de comidas'); setIngredients(['']); setSteps(['']);
     localStorage.removeItem('recipe_draft');
   };
@@ -75,7 +75,7 @@ export const RecipeSubmission: React.FC = () => {
         <p>{nutrition.cals} kcal, {nutrition.prot}g prot, {nutrition.fat}g fat, {nutrition.carb}g carb</p>
       </div>
 
-      <input className="input" placeholder="Título" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input className="input" placeholder="Título" value={title} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} />
       
       <select className="input" value={category} onChange={(e) => setCategory(e.target.value)}>
         <option value="receitas de comidas">Comidas/Outros</option>
@@ -95,7 +95,7 @@ export const RecipeSubmission: React.FC = () => {
 
       <div className="space-y-2">
         <label className="font-semibold text-sm">Importar lista de ingredientes (cole aqui)</label>
-        <textarea className="input" value={bulkIngredients} onChange={(e) => {
+        <textarea className="input" value={bulkIngredients} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             setBulkIngredients(e.target.value);
             setIngredients(parseIngredients(e.target.value));
         }} placeholder="1 xícara de farinha&#10;2 ovos" />
@@ -108,7 +108,7 @@ export const RecipeSubmission: React.FC = () => {
             <div className="flex gap-2">
                 <input className="input" value={ing} onChange={(e) => {
                     const newIngs = [...ingredients];
-                    newIngs[i] = e.target.value;
+                    newIngs[i] = (e.target as HTMLInputElement).value;
                     setIngredients(newIngs);
                 }} />
                 <button className="btn-secondary" onClick={() => setIngredients(ingredients.filter((_, idx) => idx !== i))}><Trash2 size={16} /></button>
@@ -125,7 +125,7 @@ export const RecipeSubmission: React.FC = () => {
           <div key={i} className="flex gap-2">
             <textarea className="input" value={step} onChange={(e) => {
                 const newSteps = [...steps];
-                newSteps[i] = e.target.value;
+                newSteps[i] = (e.target as HTMLTextAreaElement).value;
                 setSteps(newSteps);
             }} />
             <button className="btn-secondary" onClick={() => setSteps(steps.filter((_, idx) => idx !== i))}><Trash2 size={16} /></button>

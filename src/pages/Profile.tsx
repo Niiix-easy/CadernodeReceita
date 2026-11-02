@@ -7,6 +7,7 @@ import { AuthorDashboard } from "@/components/AuthorDashboard";
 import { SearchTrends } from "@/components/SearchTrends";
 import { UserCollections } from "@/components/UserCollections";
 import { CookingStreak } from "@/components/CookingStreak";
+import { WeeklyNutritionReport } from "@/components/WeeklyNutritionReport";
 import { recordActivity } from "@/lib/streaks";
 
 export default function Profile() {
@@ -29,6 +30,8 @@ export default function Profile() {
       </div>
       <hr className="my-4" />
       <CookingStreak />
+      <hr className="my-4" />
+      <WeeklyNutritionReport />
       <hr className="my-4" />
       <ActivityDashboard />
       <hr className="my-4" />

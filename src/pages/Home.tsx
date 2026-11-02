@@ -8,6 +8,7 @@ import { ItemCard } from "@/components/ItemCard";
 import { Spinner } from "@/components/Spinner";
 import { useSubscription } from "@/context/SubscriptionContext";
 import { useAuth } from "@/context/AuthContext";
+import { useGoals } from "@/context/GoalContext";
 import { CategorySelector } from "@/components/CategorySelector";
 import { CommunityFeed } from "@/components/CommunityFeed";
 import stringSimilarity from 'string-similarity';
@@ -21,6 +22,7 @@ const TABS = ["receitas de comidas", "receitas de saude", "receitas de produçao
 export default function Home() {
   const { isPremium } = useSubscription();
   const { user } = useAuth();
+  const { goals, setGoals } = useGoals();
   const [items, setItems] = useState<CatalogItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +32,7 @@ export default function Home() {
   const [difficulty, setDifficulty] = useState<string>("all");
   const [recommendations, setRecommendations] = useState<CatalogItem[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('recent_searches');
@@ -97,6 +100,15 @@ export default function Home() {
           </div>
         )}
 
+        <div className="card">
+            <h2 className="text-lg font-bold mb-2">Meta Calórica Diária</h2>
+            <div className="flex gap-2">
+                <input type="number" className="input" placeholder="Calorias" value={goals?.calories || ''} onChange={(e) => setGoals({ ...goals!, calories: parseInt(e.target.value) || 0 })} />
+                <button className="btn-primary" onClick={() => setGoals(goals!)}>Salvar</button>
+            </div>
+            {goals && <p className="text-sm text-muted mt-2">Meta: {goals.calories} kcal</p>}
+        </div>
+
         {recommendations.length > 0 && (
           <section className="space-y-2">
             <h2 className="text-lg font-bold">Recomendado para Você</h2>
@@ -106,18 +118,25 @@ export default function Home() {
           </section>
         )}
 
-        <CategorySelector 
-          selected={selectedTabs} 
-          onSelect={(tabs) => {
-            setSelectedTabs(tabs);
-            trackEvent('category_filter_apply', tabs.join(', '));
-          }} 
-          categories={TABS} 
-        />
-
-  const [isListening, setIsListening] = useState(false);
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  // ... (existing useEffects)
+        <div className="flex gap-2">
+            <CategorySelector 
+            selected={selectedTabs} 
+            onSelect={(tabs) => {
+                setSelectedTabs(tabs);
+                trackEvent('category_filter_apply', tabs.join(', '));
+            }} 
+            categories={TABS} 
+            />
+            <select className="input h-[44px]" value={difficulty} onChange={(e) => {
+                setDifficulty(e.target.value);
+                trackEvent('difficulty_filter_apply', e.target.value);
+            }}>
+                <option value="all">Todas</option>
+                <option value="Fácil">Fácil</option>
+                <option value="Médio">Médio</option>
+                <option value="Difícil">Difícil</option>
+            </select>
+        </div>
 
   return (
     // ...
