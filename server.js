@@ -162,6 +162,97 @@ function createServer() {
                             }
                         });
                     }); });
+                    app.post('/api/categorize-items', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+                        var ingredients, response, err_4;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    ingredients = req.body.ingredients;
+                                    _a.label = 1;
+                                case 1:
+                                    _a.trys.push([1, 3, , 4]);
+                                    return [4 /*yield*/, ai.models.generateContent({
+                                            model: 'gemini-3.8-flash',
+                                            contents: "Categorize the following shopping items into aisles: ".concat(ingredients.join(', '), ". Return a JSON object where keys are the aisle names and values are arrays of items."),
+                                            config: {
+                                                responseMimeType: 'application/json',
+                                                responseSchema: {
+                                                    type: genai_1.Type.OBJECT,
+                                                    properties: {
+                                                        aisles: {
+                                                            type: genai_1.Type.OBJECT,
+                                                            additionalProperties: { type: genai_1.Type.ARRAY, items: { type: genai_1.Type.STRING } }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        })];
+                                case 2:
+                                    response = _a.sent();
+                                    res.json(JSON.parse(response.text || '{}'));
+                                    return [3 /*break*/, 4];
+                                case 3:
+                                    err_4 = _a.sent();
+                                    console.error(err_4);
+                                    res.status(500).json({ error: 'Failed to categorize items' });
+                                    return [3 /*break*/, 4];
+                                case 4: return [2 /*return*/];
+                            }
+                        });
+                    }); });
+                    app.post('/api/smart-pantry-recipes', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+                        var expiringItems, itemsList, response, err_5;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    expiringItems = req.body.expiringItems;
+                                    _a.label = 1;
+                                case 1:
+                                    _a.trys.push([1, 3, , 4]);
+                                    itemsList = Array.isArray(expiringItems) && expiringItems.length > 0
+                                        ? expiringItems.join(', ')
+                                        : 'ovos, tomate, leite, queijo';
+                                    return [4 /*yield*/, ai.models.generateContent({
+                                            model: 'gemini-3.8-flash',
+                                            contents: "You are a professional chef specializing in zero-waste cooking. Given these ingredients nearing expiration: ".concat(itemsList, ", suggest exactly 3 quick-prep recipes (under 25 minutes) that use as many of these expiring ingredients as possible. Return JSON in Portuguese with this exact schema."),
+                                            config: {
+                                                responseMimeType: 'application/json',
+                                                responseSchema: {
+                                                    type: genai_1.Type.OBJECT,
+                                                    properties: {
+                                                        recipes: {
+                                                            type: genai_1.Type.ARRAY,
+                                                            items: {
+                                                                type: genai_1.Type.OBJECT,
+                                                                properties: {
+                                                                    title: { type: genai_1.Type.STRING },
+                                                                    prepTime: { type: genai_1.Type.STRING },
+                                                                    difficulty: { type: genai_1.Type.STRING },
+                                                                    usedIngredients: { type: genai_1.Type.ARRAY, items: { type: genai_1.Type.STRING } },
+                                                                    extraIngredients: { type: genai_1.Type.ARRAY, items: { type: genai_1.Type.STRING } },
+                                                                    instructions: { type: genai_1.Type.STRING }
+                                                                },
+                                                                required: ['title', 'prepTime', 'difficulty', 'usedIngredients', 'instructions']
+                                                            }
+                                                        }
+                                                    },
+                                                    required: ['recipes']
+                                                }
+                                            }
+                                        })];
+                                case 2:
+                                    response = _a.sent();
+                                    res.json(JSON.parse(response.text || '{"recipes":[]}'));
+                                    return [3 /*break*/, 4];
+                                case 3:
+                                    err_5 = _a.sent();
+                                    console.error(err_5);
+                                    res.status(500).json({ error: 'Failed to generate smart pantry recipes' });
+                                    return [3 /*break*/, 4];
+                                case 4: return [2 /*return*/];
+                            }
+                        });
+                    }); });
                     app.listen(3000, function () { return console.log('Server running on http://localhost:3000'); });
                     return [2 /*return*/];
             }

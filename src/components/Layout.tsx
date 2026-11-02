@@ -9,9 +9,13 @@ import { useState } from "react";
 const nav = "flex min-h-[44px] items-center gap-1.5 rounded-lg px-3 text-sm font-medium hover:bg-sand";
 const active = "bg-sand text-terracotta-dark";
 
+import { usePantry } from "@/context/PantryContext";
+import { Package } from "lucide-react";
+
 export function Layout() {
   const { signOut } = useAuth();
   const { isPremium } = useSubscription();
+  const { expiringItems } = usePantry();
   const isOnline = useOnlineStatus();
   const [isDark, setIsDark] = useState(false);
 
@@ -41,6 +45,12 @@ export function Layout() {
           <nav aria-label="Navegação Principal" className="flex flex-wrap items-center gap-1">
             <PWAInstallButton />
             <NavLink to="/" end className={({ isActive }) => `${nav} ${isActive ? active : ""}`} aria-label="Página Inicial">Início</NavLink>
+            <NavLink to="/despensa" className={({ isActive }) => `${nav} ${isActive ? active : ""} relative`} aria-label="Acessar sua Despensa">
+              <Package size={16} aria-hidden /> Despensa
+              {expiringItems.length > 0 && (
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse inline-block" title="Itens na despensa vencendo!" />
+              )}
+            </NavLink>
             <NavLink to="/favoritos" className={({ isActive }) => `${nav} ${isActive ? active : ""}`} aria-label="Ver suas Receitas Favoritas">
               <Heart size={16} aria-hidden /> Favoritos
             </NavLink>
